@@ -1,0 +1,48 @@
+1. Create folder with docker-compose.yml
+------------------------------------------------------------
+version: '3.1'
+
+services:
+
+  drupal:
+    image: drupal:10.1.2
+    ports:
+      - 8080:80
+    volumes:
+     - ./sites:/var/www/html/sites
+    restart: always
+    # links:
+    #   - "mysql:mysql"
+
+  mysql:
+    image: mysql
+    restart: always 
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root' # TODO: Change this
+    volumes:
+      - ./db:/var/lib/mysql/
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8090:80
+    environment:  
+      PMA_HOST: mysql  
+
+2. Setup Docker ------------------------------------------------
+- run docker-compose up
+- check Docker Desktop
+
+3. Setup MySQL------------------------------------------------
+- run in browser PHPmyAdmin with root and root as access info
+- create new database "bookDB"
+
+4. Setup Drupal ------------------------------------------------
+- create sites/default/default.settings.php and settings.php
+- create sites/files folder
+- run install Drupal in Docker Desktop
+- choose Language and Standard setup
+- enter database name, root, root
+- choose advanced change localhost to mysql
+- configure site email, root, root, country
+
